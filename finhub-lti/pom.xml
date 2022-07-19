@@ -8,7 +8,7 @@
 		<version>2.7.1</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>herokuapp.com/</groupId>
+	<groupId>herokuapp.com</groupId>
 	<artifactId>finhub-lti</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>FinHub</name>
