@@ -1,8 +1,8 @@
 package herokuapp.com.finhublti.models;
 
 public class Product {
-    String pname,pdesc,pimage;
-    long is3,is6, is9,is12, pid;
+    String pname, pdesc, pimage;
+    long is3, is6, is9, is12, pid;
 
     public Product() {
     }
