@@ -2,12 +2,12 @@ package herokuapp.com.finhublti.models;
 
 public class Product {
     String pname, pdesc, pimage;
-    long is3, is6, is9, is12, pid;
+    long is3, is6, is9, is12, pid, price;
 
     public Product() {
     }
 
-    public Product(String pname, String pdesc, String pimage, long is3, long is6, long is9, long is12, long pid) {
+    public Product(String pname, String pdesc, String pimage, long is3, long is6, long is9, long is12, long pid, long price) {
         this.pname = pname;
         this.pdesc = pdesc;
         this.pimage = pimage;
@@ -16,6 +16,7 @@ public class Product {
         this.is9 = is9;
         this.is12 = is12;
         this.pid = pid;
+        this.price = price;
     }
 
     public String getPname() {
@@ -80,5 +81,13 @@ public class Product {
 
     public void setPid(long pid) {
         this.pid = pid;
+    }
+
+    public long getPrice() {
+        return price;
+    }
+
+    public void setPrice(long price) {
+        this.price = price;
     }
 }
