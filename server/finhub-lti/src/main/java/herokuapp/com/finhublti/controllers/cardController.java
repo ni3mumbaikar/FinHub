@@ -13,7 +13,6 @@ import herokuapp.com.finhublti.models.card;
 @RestController
 public class cardController {
 
-
 	@Autowired
 	CardDao cd;
 
@@ -27,6 +26,5 @@ public class cardController {
 		System.out.println("cid request : " + cust_id);
 		return cd.getCard(Long.parseLong(cust_id));
 	}
-
 
 }
