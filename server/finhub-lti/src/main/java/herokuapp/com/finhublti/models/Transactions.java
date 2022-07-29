@@ -2,8 +2,26 @@ package herokuapp.com.finhublti.models;
 
 import java.util.Date;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "TRANSACTIONS")
 public class Transactions {
-	long txn_id, cust_id, pid, pending_inst;
+	@Id
+	long txn_id;
+	@ManyToOne
+	@JoinColumn(name = "cust_id")
+	Customer c;
+
+	@ManyToOne
+	@JoinColumn(name = "pid")
+	Product p;
+
+	long pending_inst;
 	Date txn_date, due_date;
 
 	public long getTxn_id() {
@@ -12,22 +30,6 @@ public class Transactions {
 
 	public void setTxn_id(long txn_id) {
 		this.txn_id = txn_id;
-	}
-
-	public long getCust_id() {
-		return cust_id;
-	}
-
-	public void setCust_id(long cust_id) {
-		this.cust_id = cust_id;
-	}
-
-	public long getPid() {
-		return pid;
-	}
-
-	public void setPid(long pid) {
-		this.pid = pid;
 	}
 
 	public Date getTxn_date() {
@@ -56,14 +58,11 @@ public class Transactions {
 
 	public Transactions() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
-	public Transactions(long txn_id, long cust_id, long pid, Date txn_date, long pending_inst, Date due_date) {
+	public Transactions(long txn_id, Date txn_date, long pending_inst, Date due_date) {
 		super();
 		this.txn_id = txn_id;
-		this.cust_id = cust_id;
-		this.pid = pid;
 		this.txn_date = txn_date;
 		this.pending_inst = pending_inst;
 		this.due_date = due_date;
