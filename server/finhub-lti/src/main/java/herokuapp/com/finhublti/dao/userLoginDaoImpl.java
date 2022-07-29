@@ -19,8 +19,8 @@ public class userLoginDaoImpl implements userLoginDao {
 
 	public Boolean getUser(String username, String password) {
 
-		String sql = "select count(*) from ( SELECT * FROM CUSTOMERS WHERE username = '" + username + "' and password='"
-				+ password + "')";
+		String sql = "select count(*) from ( SELECT * FROM CUSTOMERS WHERE username = '\" + username + \"' and password='\"\n" +
+				"\t\t\t\t+ password + \"')";
 		int c = (Integer) jdbcTemplate.queryForObject(sql, Integer.class);
 		return (c != 0);
 

@@ -1,5 +1,7 @@
 package herokuapp.com.finhublti.models;
 
+import javax.persistence.Entity;
+
 public class Address {
 long cust_id,pincode;
 String street,city,state,dist,landmark;

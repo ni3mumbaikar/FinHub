@@ -14,7 +14,6 @@ import herokuapp.com.finhublti.models.card;
 @Service
 public class CardDaoImpl implements CardDao {
 
-
 	 @Autowired
 	    private JdbcTemplate jdbcTemplate;
 

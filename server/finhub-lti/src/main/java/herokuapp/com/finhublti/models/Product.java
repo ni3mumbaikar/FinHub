@@ -1,8 +1,17 @@
 package herokuapp.com.finhublti.models;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "products")
 public class Product {
+
+    @Id
+    long pid;
     String pname, pdesc, pimage;
-    long is3, is6, is9, is12, pid, price;
+    long is3, is6, is9, is12, price;
 
     public Product() {
     }
