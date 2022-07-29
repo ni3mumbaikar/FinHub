@@ -1,10 +1,23 @@
 package herokuapp.com.finhublti.models;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+@Entity
+@Table(name = "customers")
 public class Customer {
+	 @Id
 	long cust_id;
 	String first_name, middle_name, last_name;
 	long phone_no;
 	String email, username, password;
+	 @OneToMany(mappedBy="c")
+	 Set<Transactions> transactions=new HashSet<>();
+	 
 	long card_type, alternate_phone, card_no, is_approved, balance, aadhar;
 	String pan;
 	public long getCust_id() {
