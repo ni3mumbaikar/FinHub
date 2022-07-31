@@ -8,5 +8,5 @@ public interface CustDao {
 
 	List<Customer> getCustomers();
 	
-	Customer getCustomer(long cid);
+	Customer getCustomer(long custid);
 }

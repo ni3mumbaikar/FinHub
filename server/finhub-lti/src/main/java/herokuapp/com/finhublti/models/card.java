@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class card {
 
-	long card_no, cust_id, cvv;
+	long card_no, custid, cvv;
 	int card_type;
 	Date valid_thr;
 
@@ -17,11 +17,11 @@ public class card {
 	}
 
 	public long getCust_id() {
-		return cust_id;
+		return custid;
 	}
 
-	public void setCust_id(long cust_id) {
-		this.cust_id = cust_id;
+	public void setCust_id(long custid) {
+		this.custid = custid;
 	}
 
 	public long getCvv() {
@@ -53,10 +53,10 @@ public class card {
 		// TODO Auto-generated constructor stub
 	}
 
-	public card(long card_no, long cust_id, long cvv, int card_type, Date valid_thr) {
+	public card(long card_no, long custid, long cvv, int card_type, Date valid_thr) {
 		super();
 		this.card_no = card_no;
-		this.cust_id = cust_id;
+		this.custid = custid;
 		this.cvv = cvv;
 		this.card_type = card_type;
 		this.valid_thr = valid_thr;

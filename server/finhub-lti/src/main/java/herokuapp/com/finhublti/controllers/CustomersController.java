@@ -21,10 +21,10 @@ public class CustomersController {
 		return cd.getCustomers();
 	}
 
-	@GetMapping("/customers/{cust_id}")
-	public Customer getCustomer(@PathVariable String cust_id) {
-		System.out.println("cid request : " + cust_id);
-		return cd.getCustomer(Long.parseLong(cust_id));
+	@GetMapping("/customers/{custid}")
+	public Customer getCustomer(@PathVariable String custid) {
+		System.out.println("cid request : " + custid);
+		return cd.getCustomer(Long.parseLong(custid));
 	}
 
 }

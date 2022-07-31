@@ -21,9 +21,9 @@ public class AddressController {
 		return cd.getaddrs();
 	}
 
-	@GetMapping("/address/{cust_id}")
-	public Address getaddr(@PathVariable String cust_id) {
-		System.out.println("cid request : " + cust_id);
-		return cd.getaddr(Long.parseLong(cust_id));
+	@GetMapping("/address/{custid}")
+	public Address getaddr(@PathVariable String custid) {
+		System.out.println("cid request : " + custid);
+		return cd.getaddr(Long.parseLong(custid));
 	}
 }

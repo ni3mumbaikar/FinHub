@@ -21,10 +21,10 @@ public class cardController {
 		return cd.getCards();
 	}
 
-	@GetMapping("/card/{cust_id}")
-	public card getCard(@PathVariable String cust_id) {
-		System.out.println("cid request : " + cust_id);
-		return cd.getCard(Long.parseLong(cust_id));
+	@GetMapping("/card/{custid}")
+	public card getCard(@PathVariable String custid) {
+		System.out.println("cid request : " + custid);
+		return cd.getCard(Long.parseLong(custid));
 	}
 
 }

@@ -9,7 +9,7 @@ public class Transactions {
     @Id
     long txn_id;
     @ManyToOne
-    @JoinColumn(name = "cust_id")
+    @JoinColumn(name = "custid")
     Customer c;
 
     @ManyToOne

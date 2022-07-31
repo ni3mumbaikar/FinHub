@@ -1,9 +1,9 @@
 package herokuapp.com.finhublti.models;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreType;
+
+import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -11,15 +11,15 @@ import java.util.Set;
 @Table(name = "customers")
 public class Customer {
     @Id
-    long cust_id;
+    long custid;
     String first_name, middle_name, last_name;
     long phone_no;
     String email, username, password;
     @OneToMany(mappedBy = "c")
     Set<Transactions> transactions = new HashSet<>();
 
-    @OneToMany(mappedBy = "doc_cust")
-    Set<Documents> documents = new HashSet<>();
+//    @OneToMany(mappedBy = "documentCustid", cascade = CascadeType.ALL)
+//    Set<Document> documents = new HashSet<>();
 
     long card_type, alternate_phone, card_no, is_approved, balance, aadhar;
     String pan;
@@ -28,11 +28,11 @@ public class Customer {
         super();
     }
 
-    public Customer(long cust_id, String first_name, String middle_name, String last_name, long phone_no, String email,
+    public Customer(long custid, String first_name, String middle_name, String last_name, long phone_no, String email,
                     String username, String password, long card_type, long alternate_phone, long card_no, long is_approved,
                     long balance, long aadhar, String pan) {
         super();
-        this.cust_id = cust_id;
+        this.custid = custid;
         this.first_name = first_name;
         this.middle_name = middle_name;
         this.last_name = last_name;
@@ -49,13 +49,13 @@ public class Customer {
         this.pan = pan;
     }
 
-    public Set<Documents> getDocuments() {
-        return documents;
-    }
-
-    public void setDocuments(Set<Documents> documents) {
-        this.documents = documents;
-    }
+//    public Set<Documents> getDocuments() {
+//        return documents;
+//    }
+//
+//    public void setDocuments(Set<Documents> documents) {
+//        this.documents = documents;
+//    }
 
     public Set<Transactions> getTransactions() {
         return transactions;
@@ -65,12 +65,12 @@ public class Customer {
         this.transactions = transactions;
     }
 
-    public long getCust_id() {
-        return cust_id;
+    public long getCustid() {
+        return custid;
     }
 
-    public void setCust_id(long cust_id) {
-        this.cust_id = cust_id;
+    public void setCustid(long custid) {
+        this.custid = custid;
     }
 
     public String getFirst_name() {

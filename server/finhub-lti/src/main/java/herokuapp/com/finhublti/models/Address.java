@@ -3,13 +3,13 @@ package herokuapp.com.finhublti.models;
 import javax.persistence.Entity;
 
 public class Address {
-long cust_id,pincode;
+long custid,pincode;
 String street,city,state,dist,landmark;
 public long getCust_id() {
-	return cust_id;
+	return custid;
 }
-public void setCust_id(long cust_id) {
-	this.cust_id = cust_id;
+public void setCust_id(long custid) {
+	this.custid = custid;
 }
 public long getPincode() {
 	return pincode;
@@ -51,9 +51,9 @@ public Address() {
 	super();
 	// TODO Auto-generated constructor stub
 }
-public Address(long cust_id, long pincode, String street, String city, String state, String dist, String landmark) {
+public Address(long custid, long pincode, String street, String city, String state, String dist, String landmark) {
 	super();
-	this.cust_id = cust_id;
+	this.custid = custid;
 	this.pincode = pincode;
 	this.street = street;
 	this.city = city;

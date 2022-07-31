@@ -1,42 +1,44 @@
 package herokuapp.com.finhublti.controllers;
 
-import herokuapp.com.finhublti.models.Documents;
-import herokuapp.com.finhublti.repositories.DocumentRepository;
+import herokuapp.com.finhublti.models.Document;
+import herokuapp.com.finhublti.services.DocumentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 
 @RestController
 public class DocController {
 
     @Autowired
-    DocumentRepository documentRepository;
+    DocumentService documentService;
 
     @GetMapping("/documents")
-    public ResponseEntity<List<Documents>> getDocuments() {
-        return new ResponseEntity<>(documentRepository.findAll(), HttpStatus.OK);
+    public ResponseEntity<List<Document>> getDocuments() {
+        return documentService.getDocuments();
     }
 
     @GetMapping("/documents/{did}")
-    public ResponseEntity<Documents> getDocument(@PathVariable String did) {
-        try {
-            Optional<Documents> productData = documentRepository.findById(Long.parseLong(did));
-            if (productData.isPresent()) {
-                return new ResponseEntity<>(productData.get(), HttpStatus.OK);
-            }
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } catch (NumberFormatException numberFormatException) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        } catch (Exception exception) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+    public ResponseEntity<Document> getDocument(@PathVariable String did) {
+        return documentService.getDocument(did);
+    }
+
+    @DeleteMapping("/documents/{did}")
+    public void removeDocument(@PathVariable String did){
+        documentService.delete(Long.parseLong(did));
+    }
+
+    @PostMapping("/documents")
+    public void insertDocument(@RequestBody Document doc) {
+        documentService.add(doc);
+    }
+
+    @PutMapping("/documents/{uid}/vAadhar")
+    public HttpStatus updateAadhar (@PathVariable String uid, @RequestParam String appStatus){
+        return documentService.updateAadhar(uid, appStatus);
     }
 
 }

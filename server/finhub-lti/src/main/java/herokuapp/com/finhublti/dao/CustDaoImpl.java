@@ -24,9 +24,9 @@ public class CustDaoImpl implements CustDao {
 
 	    @Override
 
-	    public Customer getCustomer(long cust_id) {
+	    public Customer getCustomer(long custid) {
 
-	        String sql = "SELECT * FROM CUSTOMERS WHERE CUST_ID=" + cust_id;
+	        String sql = "SELECT * FROM CUSTOMERS WHERE CUSTID=" + custid;
 	        return (Customer) jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper(Customer.class));
 
 	    }

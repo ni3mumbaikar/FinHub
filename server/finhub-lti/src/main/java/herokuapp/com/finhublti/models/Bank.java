@@ -5,9 +5,9 @@ import javax.persistence.*;
 @Embeddable
 @Table(name = "bank")
 public class Bank {
-	@Column(name="cust_id")
+	@Column(name="custid")
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="cust_id",referencedColumnName = "cust_id")
+	@JoinColumn(name="custid",referencedColumnName = "custid")
 	Customer bank_cust;
 	long acc_no;
 	String bank_name, ifsc;
