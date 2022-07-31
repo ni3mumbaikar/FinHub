@@ -1,23 +1,30 @@
 package herokuapp.com.finhublti.models;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "documents")
 public class Document {
     long custid, vaadhar, vpan, vphoto, vbank_info;
     String aadhar, pan, photo, bank_info, comment;
+    @ManyToOne
+    @JoinColumn(name = "custid", insertable = false, updatable = false)
+    Customer documentCustid;
     @Id
-    @Column(name = "id", nullable = false)
     private Long id;
 
     public Document() {
     }
 
-    public Document(long custid, long vaadhar, long vpan, long vphoto, long vbank_info, String aadhar, String pan, String photo, String bank_info, String comment, Long id) {
+    public Customer getDocumentCustid() {
+        return documentCustid;
+    }
+
+    public void setDocumentCustid(Customer documentCustid) {
+        this.documentCustid = documentCustid;
+    }
+
+    public Document(long custid, long vaadhar, long vpan, long vphoto, long vbank_info, String aadhar, String pan, String photo, String bank_info, String comment, Customer documentCustid, Long id) {
         this.custid = custid;
         this.vaadhar = vaadhar;
         this.vpan = vpan;
@@ -28,6 +35,7 @@ public class Document {
         this.photo = photo;
         this.bank_info = bank_info;
         this.comment = comment;
+        this.documentCustid = documentCustid;
         this.id = id;
     }
 

@@ -27,18 +27,20 @@ public class DocController {
     }
 
     @DeleteMapping("/documents/{did}")
-    public void removeDocument(@PathVariable String did){
-        documentService.delete(Long.parseLong(did));
+    public HttpStatus removeDocument(@PathVariable String did){
+        return documentService.delete(Long.parseLong(did));
     }
 
     @PostMapping("/documents")
-    public void insertDocument(@RequestBody Document doc) {
-        documentService.add(doc);
+    public HttpStatus insertDocument(@RequestBody Document doc) {
+        return documentService.add(doc);
     }
 
     @PutMapping("/documents/{uid}/vAadhar")
     public HttpStatus updateAadhar (@PathVariable String uid, @RequestParam String appStatus){
         return documentService.updateAadhar(uid, appStatus);
     }
+
+
 
 }

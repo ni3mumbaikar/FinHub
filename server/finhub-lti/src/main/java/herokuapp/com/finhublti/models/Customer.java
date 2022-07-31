@@ -1,8 +1,5 @@
 package herokuapp.com.finhublti.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreType;
-
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -18,8 +15,8 @@ public class Customer {
     @OneToMany(mappedBy = "c")
     Set<Transactions> transactions = new HashSet<>();
 
-//    @OneToMany(mappedBy = "documentCustid", cascade = CascadeType.ALL)
-//    Set<Document> documents = new HashSet<>();
+    @OneToMany(mappedBy = "documentCustid", cascade = CascadeType.ALL)
+    Set<Document> documents = new HashSet<>();
 
     long card_type, alternate_phone, card_no, is_approved, balance, aadhar;
     String pan;
@@ -48,14 +45,6 @@ public class Customer {
         this.aadhar = aadhar;
         this.pan = pan;
     }
-
-//    public Set<Documents> getDocuments() {
-//        return documents;
-//    }
-//
-//    public void setDocuments(Set<Documents> documents) {
-//        this.documents = documents;
-//    }
 
     public Set<Transactions> getTransactions() {
         return transactions;

@@ -17,12 +17,15 @@ public class DocumentService {
     DocumentRepository documentRepository;
 
     @Transactional
-    public void add (Document document){
+    public HttpStatus add (Document document){
         documentRepository.save(document);
+        return HttpStatus.OK;
     }
 
-    public void delete(long id) {
+    @Transactional
+    public HttpStatus delete(long id) {
         documentRepository.deleteById(id);
+        return HttpStatus.OK;
     }
 
     public ResponseEntity<List<Document>> getDocuments() {
