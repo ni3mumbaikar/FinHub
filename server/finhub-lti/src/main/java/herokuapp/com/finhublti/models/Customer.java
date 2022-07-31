@@ -12,11 +12,21 @@ public class Customer {
     String first_name, middle_name, last_name;
     long phone_no;
     String email, username, password;
+
     @OneToMany(mappedBy = "c")
     Set<Transactions> transactions = new HashSet<>();
 
     @OneToMany(mappedBy = "documentCustid", cascade = CascadeType.ALL)
     Set<Document> documents = new HashSet<>();
+
+    @OneToMany(mappedBy = "addressCustomer", cascade = CascadeType.ALL)
+    Set<Address> addresses = new HashSet<>();
+
+    @OneToMany(mappedBy = "bank_cust", cascade = CascadeType.ALL)
+    Set<Bank> banks = new HashSet<>();
+
+    @OneToMany(mappedBy = "card_cust", cascade = CascadeType.ALL)
+    Set<Card> cards = new HashSet<>();
 
     long card_type, alternate_phone, card_no, is_approved, balance, aadhar;
     String pan;
@@ -27,7 +37,7 @@ public class Customer {
 
     public Customer(long custid, String first_name, String middle_name, String last_name, long phone_no, String email,
                     String username, String password, long card_type, long alternate_phone, long card_no, long is_approved,
-                    long balance, long aadhar, String pan) {
+                    long balance, long aadhar, String pan, String myname) {
         super();
         this.custid = custid;
         this.first_name = first_name;
@@ -45,6 +55,8 @@ public class Customer {
         this.aadhar = aadhar;
         this.pan = pan;
     }
+
+
 
     public Set<Transactions> getTransactions() {
         return transactions;
