@@ -16,7 +16,7 @@ public class Card {
     @JoinColumn(name = "custid", insertable = false, updatable = false)
     Customer card_cust;
 
-    long custid, cvv, limit;
+    long custid, cvv, limit, balance;
 
     @JsonIgnore
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -38,21 +38,22 @@ public class Card {
         this.card_cust = card_cust;
     }
 
-    public CardType getCt() {
-        return ct;
-    }
-
-    public void setCt(CardType ct) {
-        this.ct = ct;
-    }
-
-    public Card(long card_no, long custid, long cvv, long limit, int card_type, Date valid_thr) {
+    public Card(long card_no, long custid, long cvv, long limit, long balance, int card_type, Date valid_thr) {
         this.card_no = card_no;
         this.custid = custid;
         this.cvv = cvv;
         this.limit = limit;
+        this.balance = balance;
         this.card_type = card_type;
         this.valid_thr = valid_thr;
+    }
+
+    public long getBalance() {
+        return balance;
+    }
+
+    public void setBalance(long balance) {
+        this.balance = balance;
     }
 
     public long getLimit() {

@@ -9,8 +9,11 @@ public class Transactions {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     long txn_id;
+
+    long custid;
+
     @ManyToOne
-    @JoinColumn(name = "custid")
+    @JoinColumn(name = "custid", insertable = false, updatable = false)
     Customer c;
 
     @ManyToOne
@@ -19,6 +22,24 @@ public class Transactions {
 
     long pending_inst;
     Date txn_date, due_date;
+
+    public long getCustid() {
+        return custid;
+    }
+
+
+
+    public Product getP() {
+        return p;
+    }
+
+    public void setP(Product p) {
+        this.p = p;
+    }
+
+    public void setCustid(long custid) {
+        this.custid = custid;
+    }
 
     public Transactions() {
         super();
@@ -31,6 +52,8 @@ public class Transactions {
         this.pending_inst = pending_inst;
         this.due_date = due_date;
     }
+
+
 
     public long getTxn_id() {
         return txn_id;

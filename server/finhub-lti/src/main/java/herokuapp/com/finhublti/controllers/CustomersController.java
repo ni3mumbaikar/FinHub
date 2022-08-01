@@ -30,7 +30,6 @@ public class CustomersController {
 
     @GetMapping("customers/authenticate")
     public long authenticate(@RequestBody Map<String, Object> payload) {
-        System.out.println(payload);
         return customerService.authenticate(payload.get("email").toString(), payload.get("password").toString());
     }
 
@@ -54,14 +53,12 @@ public class CustomersController {
 
     @GetMapping("/customers/{custid}")
     public ResponseEntity<Customer> getCustomer(@PathVariable String custid) {
-        System.out.println("cid request : " + custid);
         return customerService.getCustomer(custid);
     }
 
     @PostMapping("/customers/signup")
     @Transactional
     public HttpStatus usersignup(@RequestBody Map<String, Object> payload) {
-        System.out.println(payload);
         Customer c = new Customer();
         c.setAadhar(Long.parseLong(payload.get("aadhar").toString()));
         c.setAlternate_phone(Long.parseLong(payload.get("alternate_phone").toString()));
@@ -118,6 +115,7 @@ public class CustomersController {
         card.setCustid(customer.getCustid());
         card.setValid_thr(date);
         card.setCvv(cvv);
+        card.setBalance(card.getLimit());
         card.setCard_type((int)customer.getCard_type());
 
         customer.setCard_no(card.getCard_no());
