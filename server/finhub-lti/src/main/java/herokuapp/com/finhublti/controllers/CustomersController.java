@@ -33,6 +33,18 @@ public class CustomersController {
         return customerService.authenticate(payload.get("email").toString(), payload.get("password").toString());
     }
 
+    @GetMapping("customers/approve/{cid}")
+    public HttpStatus approveCustomer(@PathVariable String cid){
+        try{
+            Customer c = customerService.getCustomer(cid).getBody();
+            c.setIs_approved(1);
+            customerService.insertUser(c);
+            return HttpStatus.OK;
+        } catch (NumberFormatException numberFormatException){
+            return HttpStatus.BAD_REQUEST;
+        }
+    }
+
     @GetMapping("/customers")
     public ResponseEntity<List<Customer>> getCustomers() {
         return customerService.getCustomers();
