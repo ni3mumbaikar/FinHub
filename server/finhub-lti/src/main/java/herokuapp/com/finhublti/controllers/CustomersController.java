@@ -1,8 +1,7 @@
 package herokuapp.com.finhublti.controllers;
 
-import herokuapp.com.finhublti.models.Address;
-import herokuapp.com.finhublti.models.Customer;
-import herokuapp.com.finhublti.models.Document;
+import herokuapp.com.finhublti.models.*;
+import herokuapp.com.finhublti.repositories.CardsRepository;
 import herokuapp.com.finhublti.services.AddressService;
 import herokuapp.com.finhublti.services.CustomerService;
 import herokuapp.com.finhublti.services.DocumentService;
@@ -13,8 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @CrossOrigin
@@ -26,6 +24,9 @@ public class CustomersController {
     AddressService addressService;
     @Autowired
     DocumentService documentService;
+
+    @Autowired
+    CardsRepository cardsRepository;
 
     @GetMapping("customers/authenticate")
     public long authenticate(@RequestBody Map<String, Object> payload) {
@@ -39,6 +40,7 @@ public class CustomersController {
             Customer c = customerService.getCustomer(cid).getBody();
             c.setIs_approved(1);
             customerService.insertUser(c);
+            generateCC(c);
             return HttpStatus.OK;
         } catch (NumberFormatException numberFormatException){
             return HttpStatus.BAD_REQUEST;
@@ -99,5 +101,37 @@ public class CustomersController {
         return HttpStatus.OK;
 
     }
+
+    public void generateCC(Customer customer){
+        Long ccnum = Long.parseLong(getCCNumber(16));
+        Long cvv = Long.parseLong(getCCNumber(3));
+        Long limit = (customer.getCard_type()==1)? 50000L : 80000L;
+        Date date = new Date();
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+        c.add(Calendar.YEAR,2);
+        date = c.getTime();
+
+        Card card = new Card();
+        card.setLimit(limit);
+        card.setCard_no(ccnum);
+        card.setCustid(customer.getCustid());
+        card.setValid_thr(date);
+        card.setCvv(cvv);
+        card.setCard_type((int)customer.getCard_type());
+
+        customer.setCard_no(card.getCard_no());
+        customerService.insertUser(customer);
+        cardsRepository.save(card);
+    }
+
+    public static String getCCNumber(int digits) {
+        Random rnd = new Random();
+        StringBuilder sb = new StringBuilder(digits);
+        for(int i=0; i < digits; i++)
+            sb.append((char)('0' + rnd.nextInt(10)));
+        return sb.toString();
+    }
+
 
 }

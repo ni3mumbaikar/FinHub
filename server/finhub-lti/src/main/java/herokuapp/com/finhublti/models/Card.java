@@ -1,5 +1,7 @@
 package herokuapp.com.finhublti.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -14,8 +16,9 @@ public class Card {
     @JoinColumn(name = "custid", insertable = false, updatable = false)
     Customer card_cust;
 
-    long custid, cvv;
+    long custid, cvv, limit;
 
+    @JsonIgnore
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     CardType ct;
 
@@ -26,8 +29,6 @@ public class Card {
         super();
         // TODO Auto-generated constructor stub
     }
-
-
 
     public Customer getCard_cust() {
         return card_cust;
@@ -45,13 +46,21 @@ public class Card {
         this.ct = ct;
     }
 
-    public Card(long card_no, long custid, long cvv, int card_type, Date valid_thr) {
-        super();
+    public Card(long card_no, long custid, long cvv, long limit, int card_type, Date valid_thr) {
         this.card_no = card_no;
         this.custid = custid;
         this.cvv = cvv;
+        this.limit = limit;
         this.card_type = card_type;
         this.valid_thr = valid_thr;
+    }
+
+    public long getLimit() {
+        return limit;
+    }
+
+    public void setLimit(long limit) {
+        this.limit = limit;
     }
 
     public long getCard_no() {
