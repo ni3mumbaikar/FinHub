@@ -1,6 +1,7 @@
 package herokuapp.com.finhublti.services;
 
 import herokuapp.com.finhublti.models.Customer;
+
 import herokuapp.com.finhublti.models.Document;
 import herokuapp.com.finhublti.repositories.CustomersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,4 +32,22 @@ public class CustomerService {
         }
     }
 
+	public Boolean authenicate(String username, String password) {
+		try {
+			Optional<List<Customer>> userlist = customersRepository.findByUsername(username);
+		
+			if(userlist.isPresent()) {
+				Customer c= userlist.get().get(0);
+				if(c.getUsername().equals(username) && c.getPassword().equals(password)) {
+					return true;
+				}
+			}
+			}
+		catch (Exception exception) {
+            System.out.print(exception.getMessage());	
+		}
+		return false;
+	}
+
 }
+
