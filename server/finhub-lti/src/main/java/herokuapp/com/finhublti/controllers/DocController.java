@@ -42,5 +42,22 @@ public class DocController {
     }
 
 
+    @PutMapping("/documents/{uid}/vPan")
+    public HttpStatus updatePan (@PathVariable String uid, @RequestParam String appStatus){
+        return documentService.updatePan(uid, appStatus);
+    }
+    
+
+    @PutMapping("/documents/{uid}/vBank_info")
+    public HttpStatus updateBank_info (@PathVariable String uid, @RequestParam String appStatus){
+        return documentService.updateBank_info(uid, appStatus);
+    }
+    
+
+    @PutMapping("/documents/{uid}/vPhoto")
+    public HttpStatus updatePhoto (@PathVariable String uid, @RequestParam String appStatus){
+        return documentService.updatePhoto(uid, appStatus);
+    }
+
 
 }
