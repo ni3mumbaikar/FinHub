@@ -54,4 +54,37 @@ public class DocumentService {
         }
         return HttpStatus.INTERNAL_SERVER_ERROR;
     }
+    
+    public HttpStatus updatePan(String uid, String appStatus) {
+        Optional<List<Document>> dlist = documentRepository.findByCustid(Long.parseLong(uid));
+        if (dlist.isPresent()){
+            Document d = dlist.get().get(0);
+            d.setVpan(Long.parseLong(appStatus));
+            documentRepository.save(d);
+            return HttpStatus.OK;
+        }
+        return HttpStatus.INTERNAL_SERVER_ERROR;
+    }
+    
+    public HttpStatus updateBank_info(String uid, String appStatus) {
+        Optional<List<Document>> dlist = documentRepository.findByCustid(Long.parseLong(uid));
+        if (dlist.isPresent()){
+            Document d = dlist.get().get(0);
+            d.setVbank_info(Long.parseLong(appStatus));
+            documentRepository.save(d);
+            return HttpStatus.OK;
+        }
+        return HttpStatus.INTERNAL_SERVER_ERROR;
+    }
+    
+    public HttpStatus updatePhoto(String uid, String appStatus) {
+        Optional<List<Document>> dlist = documentRepository.findByCustid(Long.parseLong(uid));
+        if (dlist.isPresent()){
+            Document d = dlist.get().get(0);
+            d.setVphoto(Long.parseLong(appStatus));
+            documentRepository.save(d);
+            return HttpStatus.OK;
+        }
+        return HttpStatus.INTERNAL_SERVER_ERROR;
+    }
 }
