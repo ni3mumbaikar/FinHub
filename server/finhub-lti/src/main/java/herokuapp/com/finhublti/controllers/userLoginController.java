@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 import herokuapp.com.finhublti.dao.userLoginDao;
 import herokuapp.com.finhublti.models.Customer;
 
-@RestController
 public class userLoginController {
 	@Autowired
 	userLoginDao cd;

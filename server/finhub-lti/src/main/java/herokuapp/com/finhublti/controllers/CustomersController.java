@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import herokuapp.com.finhublti.models.Customer;
@@ -17,6 +18,12 @@ public class CustomersController {
 	@Autowired
 	CustomerService customerService;
 
+
+	@GetMapping("/users")
+	public Boolean getUser(@RequestParam(name = "username") String username,
+			@RequestParam(name = "password") String password) {
+		return customerService.authenicate(username, password);
+	}
 	@GetMapping("/customers")
 	public ResponseEntity<List<Customer>> getCustomers() {
 		return customerService.getCustomers();
