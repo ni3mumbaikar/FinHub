@@ -9,6 +9,7 @@ public class Address {
     long custid, pincode;
     String street, city, state, dist, landmark;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
 	@ManyToOne
@@ -19,6 +20,7 @@ public class Address {
         super();
         // TODO Auto-generated constructor stub
     }
+
 
     public Address(long custid, long pincode, String street, String city, String state, String dist, String landmark, Long id) {
         this.custid = custid;

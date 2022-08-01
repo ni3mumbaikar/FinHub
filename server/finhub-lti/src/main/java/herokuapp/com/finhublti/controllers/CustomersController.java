@@ -1,58 +1,90 @@
 package herokuapp.com.finhublti.controllers;
 
-import java.util.List;
-
+import herokuapp.com.finhublti.models.Address;
+import herokuapp.com.finhublti.models.Customer;
+import herokuapp.com.finhublti.models.Document;
+import herokuapp.com.finhublti.services.AddressService;
 import herokuapp.com.finhublti.services.CustomerService;
+import herokuapp.com.finhublti.services.DocumentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import herokuapp.com.finhublti.models.Customer;
-import herokuapp.com.finhublti.repositories.CustomersRepository;
+import javax.transaction.Transactional;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 public class CustomersController {
 
-	@Autowired
-	CustomerService customerService;
+    @Autowired
+    CustomerService customerService;
+    @Autowired
+    AddressService addressService;
+    @Autowired
+    DocumentService documentService;
 
-	@Autowired
-	CustomersRepository cr;
+    @GetMapping("customers/authenticate")
+    public long authenticate(@RequestBody Map<String, Object> payload) {
+        System.out.println(payload);
+        return customerService.authenticate(payload.get("email").toString(), payload.get("password").toString());
+    }
 
-	@GetMapping("/authenticate")
-	public long authenticate(@RequestParam(name = "username") String username,
-			@RequestParam(name = "password") String password) {
-		return customerService.authenicate(username, password);
-	}
+    @GetMapping("/customers")
+    public ResponseEntity<List<Customer>> getCustomers() {
+        return customerService.getCustomers();
+    }
 
-	@GetMapping("/customers")
-	public ResponseEntity<List<Customer>> getCustomers() {
-		return customerService.getCustomers();
-	}
+    @GetMapping("/customers/{custid}")
+    public ResponseEntity<Customer> getCustomer(@PathVariable String custid) {
+        System.out.println("cid request : " + custid);
+        return customerService.getCustomer(custid);
+    }
 
-	@GetMapping("/customers/{custid}")
-	public ResponseEntity<Customer> getCustomer(@PathVariable String custid) {
-		System.out.println("cid request : " + custid);
-		return customerService.getCustomer(custid);
-	}
+    @PostMapping("/customers/signup")
+    @Transactional
+    public HttpStatus usersignup(@RequestBody Map<String, Object> payload) {
+        System.out.println(payload);
+        Customer c = new Customer();
+        c.setAadhar(Long.parseLong(payload.get("aadhar").toString()));
+        c.setAlternate_phone(Long.parseLong(payload.get("alternate_phone").toString()));
+        c.setEmail(payload.get("email").toString());
+        c.setFirst_name(payload.get("first_name").toString());
+        c.setLast_name(payload.get("last_name").toString());
+        c.setMiddle_name(payload.get("middle_name").toString());
+        c.setPan(payload.get("pan").toString());
+        c.setUsername(payload.get("username").toString());
+        c.setPassword(payload.get("password").toString());
+        c.setPhone_no(Long.parseLong(payload.get("phone_no").toString()));
+        c.setCard_type(Long.parseLong(payload.get("inlineRadioOptions").toString()));
+        customerService.insertUser(c);
 
-	@PostMapping("/users/signup")
-	public HttpStatus usersignup(@RequestBody Customer c) {
+        Document document = new Document();
+        document.setAadhar(payload.get("aadhar_doc").toString());
+        document.setPan(payload.get("pan_doc").toString());
+        document.setBank_info(payload.get("bank_info").toString());
+        document.setPhoto(payload.get("photo").toString());
+        document.setVaadhar(0);
+        document.setVbank_info(0);
+        document.setVpan(0);
+        document.setVbank_info(0);
+        document.setCustid(c.getCustid());
+        documentService.add(document);
 
-			if (cr.findByUsername(c.getUsername()) == null) {
-			return HttpStatus.BAD_REQUEST;
-		}
-		else {
-			return customerService.insertUser(c);
-		}
+        Address address = new Address();
+        address.setCity(payload.get("city").toString());
+        address.setDist(payload.get("dist").toString());
+        address.setCustid(c.getCustid());
+        address.setLandmark(payload.get("landmark").toString());
+        address.setPincode(Long.parseLong(payload.get("pincode").toString()));
+        address.setState(payload.get("state").toString());
+        address.setStreet(payload.get("street").toString());
+        addressService.add(address);
 
-	}
+        return HttpStatus.OK;
+
+    }
 
 }

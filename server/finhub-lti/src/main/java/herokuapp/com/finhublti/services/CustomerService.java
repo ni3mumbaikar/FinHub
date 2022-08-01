@@ -1,8 +1,6 @@
 package herokuapp.com.finhublti.services;
 
 import herokuapp.com.finhublti.models.Customer;
-
-import herokuapp.com.finhublti.models.Document;
 import herokuapp.com.finhublti.repositories.CustomersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -32,30 +30,27 @@ public class CustomerService {
         }
     }
 
-	public long authenicate(String username, String password) {
-		try {
-			Optional<List<Customer>> userlist = customersRepository.findByUsername(username);
-		
-			if(userlist.isPresent()) {
-				Customer c= userlist.get().get(0);
-				if(c.getUsername().equals(username) && c.getPassword().equals(password)) {
-					return c.getCustid();
-				}
-			}
-			}
-		catch (Exception exception) {
-            System.out.print(exception.getMessage());	
-		}
-		return 0;
-	}
+    public long authenticate(String email, String password) {
+        try {
+            Optional<List<Customer>> userlist = customersRepository.findByEmail(email);
+
+            if (userlist.isPresent()) {
+                Customer c = userlist.get().get(0);
+                if (c.getEmail().equals(email) && c.getPassword().equals(password)) {
+                    return c.getCustid();
+                }
+            }
+        } catch (Exception exception) {
+            System.out.print(exception.getMessage());
+        }
+        return 0;
+    }
 
 
+    public HttpStatus insertUser(Customer c) {
 
-
-	public HttpStatus insertUser(Customer c) {
-		
-		customersRepository.save(c);
-		return HttpStatus.OK;
-	}
+        customersRepository.save(c);
+        return HttpStatus.OK;
+    }
 }
 

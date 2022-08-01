@@ -7,6 +7,7 @@ import javax.persistence.*;
 public class CardType {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     int card_type;
     String card_name;
 

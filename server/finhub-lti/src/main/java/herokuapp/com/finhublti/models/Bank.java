@@ -6,64 +6,65 @@ import javax.persistence.*;
 @Table(name = "bank")
 public class Bank {
 
-	@Id
-	long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    long id;
 
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "custid", insertable = false, updatable = false)
-	Customer bank_cust;
-	long acc_no;
-	String bank_name, ifsc;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "custid", insertable = false, updatable = false)
+    Customer bank_cust;
+    long acc_no;
+    String bank_name, ifsc;
 
-	public Customer getBank_cust() {
-		return bank_cust;
-	}
+    public Bank() {
+        super();
+    }
 
-	public long getId() {
-		return id;
-	}
+    public Bank(long acc_no, String bank_name, String ifsc) {
+        super();
+        this.acc_no = acc_no;
+        this.bank_name = bank_name;
+        this.ifsc = ifsc;
+    }
 
-	public void setId(long id) {
-		this.id = id;
-	}
+    public Customer getBank_cust() {
+        return bank_cust;
+    }
 
-	public void setBank_cust(Customer bank_cust) {
-		this.bank_cust = bank_cust;
-	}
+    public void setBank_cust(Customer bank_cust) {
+        this.bank_cust = bank_cust;
+    }
 
-	public long getAcc_no() {
-		return acc_no;
-	}
+    public long getId() {
+        return id;
+    }
 
-	public void setAcc_no(long acc_no) {
-		this.acc_no = acc_no;
-	}
+    public void setId(long id) {
+        this.id = id;
+    }
 
-	public String getBank_name() {
-		return bank_name;
-	}
+    public long getAcc_no() {
+        return acc_no;
+    }
 
-	public void setBank_name(String bank_name) {
-		this.bank_name = bank_name;
-	}
+    public void setAcc_no(long acc_no) {
+        this.acc_no = acc_no;
+    }
 
-	public String getIfsc() {
-		return ifsc;
-	}
+    public String getBank_name() {
+        return bank_name;
+    }
 
-	public void setIfsc(String ifsc) {
-		this.ifsc = ifsc;
-	}
+    public void setBank_name(String bank_name) {
+        this.bank_name = bank_name;
+    }
 
-	public Bank() {
-		super();
-	}
+    public String getIfsc() {
+        return ifsc;
+    }
 
-	public Bank(long acc_no, String bank_name, String ifsc) {
-		super();
-		this.acc_no = acc_no;
-		this.bank_name = bank_name;
-		this.ifsc = ifsc;
-	}
+    public void setIfsc(String ifsc) {
+        this.ifsc = ifsc;
+    }
 
 }

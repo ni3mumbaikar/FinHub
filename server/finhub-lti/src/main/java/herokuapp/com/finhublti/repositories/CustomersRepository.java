@@ -9,4 +9,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface CustomersRepository extends JpaRepository<Customer,Long> {
 	Optional<List<Customer>> findByUsername(String custid);
+	Optional<List<Customer>> findByEmail(String email);
 }

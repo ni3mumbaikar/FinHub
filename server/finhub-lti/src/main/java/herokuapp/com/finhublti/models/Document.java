@@ -11,6 +11,7 @@ public class Document {
     @JoinColumn(name = "custid", insertable = false, updatable = false)
     Customer documentCustid;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     public Document() {

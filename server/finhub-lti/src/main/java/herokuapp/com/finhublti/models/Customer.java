@@ -8,10 +8,14 @@ import java.util.Set;
 @Table(name = "customers")
 public class Customer {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     long custid;
     String first_name, middle_name, last_name;
     long phone_no;
-    String email, username, password;
+    String email, password;
+
+    @Column(unique = true)
+    String username;
 
     @OneToMany(mappedBy = "c")
     Set<Transactions> transactions = new HashSet<>();
@@ -55,7 +59,6 @@ public class Customer {
         this.aadhar = aadhar;
         this.pan = pan;
     }
-
 
 
     public Set<Transactions> getTransactions() {

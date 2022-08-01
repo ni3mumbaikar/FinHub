@@ -2,6 +2,7 @@ package herokuapp.com.finhublti.services;
 
 import herokuapp.com.finhublti.models.Address;
 import herokuapp.com.finhublti.models.Customer;
+import herokuapp.com.finhublti.models.Document;
 import herokuapp.com.finhublti.repositories.AddressRepository;
 import herokuapp.com.finhublti.repositories.CustomersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,6 +23,12 @@ public class AddressService {
         return new ResponseEntity<>(addressRepository.findAll(), HttpStatus.OK);
     }
 
+    @Transactional
+    public HttpStatus add (Address address){
+        addressRepository.save(address);
+        return HttpStatus.OK;
+    }
+
     public ResponseEntity<Address> getCustomer(String cid) {
         try {
             Optional<Address> addressData = addressRepository.findById(Long.parseLong(cid));
@@ -31,5 +39,8 @@ public class AddressService {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+
+
 
 }
