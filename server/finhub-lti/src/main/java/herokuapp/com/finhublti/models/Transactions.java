@@ -18,7 +18,7 @@ public class Transactions {
     @JoinColumn(name = "custid", insertable = false, updatable = false)
     Customer c;
 
-    @JsonIgnore
+
     @ManyToOne
     @JoinColumn(name = "pid", insertable = false, updatable = false)
     Product p;
@@ -28,6 +28,13 @@ public class Transactions {
     int emi_months;
 
     long pending_inst;
+
+    public void setP(Product p) {
+        this.p = p;
+    }
+
+
+
     Date txn_date, due_date;
 
     public long getCustid() {

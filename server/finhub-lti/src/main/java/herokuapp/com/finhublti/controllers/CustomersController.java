@@ -43,7 +43,7 @@ public class CustomersController {
     }
 
     @GetMapping("customers/authenticate")
-    public long authenticate(@RequestParam String username, @RequestParam String password) {
+    public ResponseEntity<Long>  authenticate(@RequestParam String username, @RequestParam String password) {
         System.out.println(username + " " + password);
         return customerService.authenticate(username, password);
     }
@@ -138,7 +138,11 @@ public class CustomersController {
         CardType[] cardType = {CardType.AMERICAN_EXPRESS, CardType.VISA, CardType.VISA};
         String cardstr = paymentCardGenerator.generateByCardType(cardType[num]);
 
+        if(cardstr.length() > 16){
+          cardstr = cardstr.substring(0,17);
+        }
         Long ccnum = Long.parseLong(cardstr);
+
         Long cvv = Long.parseLong(getCVCNumber(3));
         Long limit = (customer.getCard_type() == 1) ? 50000L : 80000L;
         Date date = new Date();

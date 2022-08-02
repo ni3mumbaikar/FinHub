@@ -30,20 +30,22 @@ public class CustomerService {
         }
     }
 
-    public long authenticate(String username, String password) {
+    public ResponseEntity<Long> authenticate(String username, String password) {
 
         try {
             Optional<List<Customer>> userlist = customersRepository.findByUsername(username);
             if (userlist.isPresent()) {
                 Customer c = userlist.get().get(0);
                 if (c.getUsername().equals(username) && c.getPassword().equals(password)) {
-                    return c.getCustid();
+                    return new ResponseEntity<>(c.getCustid(),HttpStatus.OK);
+                } else {
+                    return new ResponseEntity<>(HttpStatus.NOT_FOUND);
                 }
             }
         } catch (Exception exception) {
             System.out.print(exception.getMessage());
         }
-        return 0;
+        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
 

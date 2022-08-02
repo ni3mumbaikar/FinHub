@@ -46,6 +46,7 @@ public class TransController {
 					t.setPending_inst(emiMonths - 1);
 					Date date = new Date();
 					t.setTxn_date(date);
+                    t.setEmi_months(emiMonths);
                     t.setPid(pid);
 					Calendar cal = Calendar.getInstance();
 					cal.setTime(date);
