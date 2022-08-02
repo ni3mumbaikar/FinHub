@@ -30,13 +30,13 @@ public class CustomerService {
         }
     }
 
-    public long authenticate(String email, String password) {
+    public long authenticate(String username, String password) {
         try {
-            Optional<List<Customer>> userlist = customersRepository.findByEmail(email);
+            Optional<List<Customer>> userlist = customersRepository.findByUsername(username);
 
             if (userlist.isPresent()) {
                 Customer c = userlist.get().get(0);
-                if (c.getEmail().equals(email) && c.getPassword().equals(password)) {
+                if (c.getEmail().equals(username) && c.getPassword().equals(password)) {
                     return c.getCustid();
                 }
             }

@@ -29,8 +29,8 @@ public class CustomersController {
     CardsRepository cardsRepository;
 
     @GetMapping("customers/authenticate")
-    public long authenticate(@RequestBody Map<String, Object> payload) {
-        return customerService.authenticate(payload.get("email").toString(), payload.get("password").toString());
+    public long authenticate(@RequestParam String username, @RequestParam String password) {
+        return customerService.authenticate(username,password);
     }
 
     @GetMapping("customers/approve/{cid}")
@@ -43,6 +43,21 @@ public class CustomersController {
             return HttpStatus.OK;
         } catch (NumberFormatException numberFormatException){
             return HttpStatus.BAD_REQUEST;
+        }
+    }
+
+    @GetMapping("customers/reject/{cid}")
+    public HttpStatus rejectCustomer(@PathVariable String cid){
+        try{
+            Customer c = customerService.getCustomer(cid).getBody();
+            c.setIs_approved(1);
+            customerService.insertUser(c);
+            generateCC(c);
+            return HttpStatus.OK;
+        } catch (NumberFormatException numberFormatException){
+            return HttpStatus.BAD_REQUEST;
+        } catch (NullPointerException nullPointerException){
+            return HttpStatus.NOT_FOUND;
         }
     }
 

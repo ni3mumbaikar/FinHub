@@ -58,8 +58,42 @@ public class TransController {
             return new ResponseEntity<>("OK", HttpStatus.OK);
         } catch (NumberFormatException numberFormatException) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } catch (Exception e ){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @PostMapping("/trans/live/{cid}")
+    public ResponseEntity<List<Transactions>> getLiveTransactions(@PathVariable String cid, @RequestBody Map<String, Object> payload){
+        Optional<Customer> customerOptional = customersRepository.findById(Long.parseLong(cid));
+        if(customerOptional.isPresent()){
+            Customer c = customerOptional.get();
+            List<Transactions> transactions = new ArrayList<>();
+            for (Transactions t : c.getTransactions()){
+                if(t.getPending_inst()>0){
+                    transactions.add(t);
+                }
+            }
+            return new ResponseEntity<>(transactions,HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    /*@PostMapping("/trans")
+    public ResponseEntity<String> payEMI(@RequestBody Map<String, Object> payload){
+        try{
+            Long pid = Long.parseLong(payload.get("pid").toString());
+            Long cid = Long.parseLong(payload.get("cid").toString());
+            int emiMonths = Integer.parseInt(payload.get("emi_months").toString());
+
+        }
+        catch (NumberFormatException numberFormatException) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } catch (Exception e ){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }*/
+
 
     @GetMapping("/trans")
     public ResponseEntity<List<Transactions>> getTransactions() {
