@@ -1,18 +1,24 @@
 package herokuapp.com.finhublti.controllers;
 
-import herokuapp.com.finhublti.models.*;
+import herokuapp.com.finhublti.models.Address;
+import herokuapp.com.finhublti.models.Card;
+import herokuapp.com.finhublti.models.Customer;
+import herokuapp.com.finhublti.models.Document;
 import herokuapp.com.finhublti.repositories.CardsRepository;
 import herokuapp.com.finhublti.services.AddressService;
 import herokuapp.com.finhublti.services.CustomerService;
 import herokuapp.com.finhublti.services.DocumentService;
+import herokuapp.com.finhublti.util.CardType;
+import herokuapp.com.finhublti.util.PaymentCardGenerator;
+import herokuapp.com.finhublti.util.PaymentCardGeneratorImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
 import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 
 @RestController
 @CrossOrigin
@@ -28,36 +34,44 @@ public class CustomersController {
     @Autowired
     CardsRepository cardsRepository;
 
+    public static String getCVCNumber(int digits) {
+        Random rnd = new Random();
+        StringBuilder sb = new StringBuilder(digits);
+        for (int i = 0; i < digits; i++)
+            sb.append((char) ('0' + rnd.nextInt(10)));
+        return sb.toString();
+    }
+
     @GetMapping("customers/authenticate")
     public long authenticate(@RequestParam String username, @RequestParam String password) {
-        System.out.println(username+" "+password);
-        return customerService.authenticate(username,password);
+        System.out.println(username + " " + password);
+        return customerService.authenticate(username, password);
     }
 
     @GetMapping("customers/approve/{cid}")
-    public HttpStatus approveCustomer(@PathVariable String cid){
-        try{
+    public HttpStatus approveCustomer(@PathVariable String cid) {
+        try {
             Customer c = customerService.getCustomer(cid).getBody();
             c.setIs_approved(1);
             customerService.insertUser(c);
             generateCC(c);
             return HttpStatus.OK;
-        } catch (NumberFormatException numberFormatException){
+        } catch (NumberFormatException numberFormatException) {
             return HttpStatus.BAD_REQUEST;
         }
     }
 
     @GetMapping("customers/reject/{cid}")
-    public HttpStatus rejectCustomer(@PathVariable String cid){
-        try{
+    public HttpStatus rejectCustomer(@PathVariable String cid) {
+        try {
             Customer c = customerService.getCustomer(cid).getBody();
             c.setIs_approved(1);
             customerService.insertUser(c);
             generateCC(c);
             return HttpStatus.OK;
-        } catch (NumberFormatException numberFormatException){
+        } catch (NumberFormatException numberFormatException) {
             return HttpStatus.BAD_REQUEST;
-        } catch (NullPointerException nullPointerException){
+        } catch (NullPointerException nullPointerException) {
             return HttpStatus.NOT_FOUND;
         }
     }
@@ -115,14 +129,22 @@ public class CustomersController {
 
     }
 
-    public void generateCC(Customer customer){
-        Long ccnum = Long.parseLong(getCCNumber(16));
-        Long cvv = Long.parseLong(getCCNumber(3));
-        Long limit = (customer.getCard_type()==1)? 50000L : 80000L;
+    public void generateCC(Customer customer) {
+        PaymentCardGenerator paymentCardGenerator = new PaymentCardGeneratorImpl();
+
+        //random number generator withing range 0 to 2 includes 0 and 2 also
+        int num = ThreadLocalRandom.current().nextInt(0, 2 + 1);
+
+        CardType[] cardType = {CardType.AMERICAN_EXPRESS, CardType.VISA, CardType.VISA};
+        String cardstr = paymentCardGenerator.generateByCardType(cardType[num]);
+
+        Long ccnum = Long.parseLong(cardstr);
+        Long cvv = Long.parseLong(getCVCNumber(3));
+        Long limit = (customer.getCard_type() == 1) ? 50000L : 80000L;
         Date date = new Date();
         Calendar c = Calendar.getInstance();
         c.setTime(date);
-        c.add(Calendar.YEAR,2);
+        c.add(Calendar.YEAR, 2);
         date = c.getTime();
 
         Card card = new Card();
@@ -132,19 +154,11 @@ public class CustomersController {
         card.setValid_thr(date);
         card.setCvv(cvv);
         card.setBalance(card.getLimit());
-        card.setCard_type((int)customer.getCard_type());
+        card.setCard_type((int) customer.getCard_type());
 
         customer.setCard_no(card.getCard_no());
         customerService.insertUser(customer);
         cardsRepository.save(card);
-    }
-
-    public static String getCCNumber(int digits) {
-        Random rnd = new Random();
-        StringBuilder sb = new StringBuilder(digits);
-        for(int i=0; i < digits; i++)
-            sb.append((char)('0' + rnd.nextInt(10)));
-        return sb.toString();
     }
 
 

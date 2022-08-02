@@ -25,6 +25,8 @@ public class Transactions {
 
     long pid;
 
+    int emi_months;
+
     long pending_inst;
     Date txn_date, due_date;
 
@@ -44,10 +46,6 @@ public class Transactions {
         return p;
     }
 
-    public void setP(Product p) {
-        this.p = p;
-    }
-
     public void setCustid(long custid) {
         this.custid = custid;
     }
@@ -65,6 +63,13 @@ public class Transactions {
     }
 
 
+    public int getEmi_months() {
+        return emi_months;
+    }
+
+    public void setEmi_months(int emi_months) {
+        this.emi_months = emi_months;
+    }
 
     public long getTxn_id() {
         return txn_id;

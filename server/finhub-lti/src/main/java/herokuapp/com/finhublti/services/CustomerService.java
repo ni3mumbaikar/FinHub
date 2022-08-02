@@ -31,6 +31,7 @@ public class CustomerService {
     }
 
     public long authenticate(String username, String password) {
+
         try {
             Optional<List<Customer>> userlist = customersRepository.findByUsername(username);
             if (userlist.isPresent()) {
