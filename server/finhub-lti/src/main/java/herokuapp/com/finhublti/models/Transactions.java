@@ -1,5 +1,7 @@
 package herokuapp.com.finhublti.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -16,9 +18,12 @@ public class Transactions {
     @JoinColumn(name = "custid", insertable = false, updatable = false)
     Customer c;
 
+    @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "pid")
+    @JoinColumn(name = "pid", insertable = false, updatable = false)
     Product p;
+
+    long pid;
 
     long pending_inst;
     Date txn_date, due_date;
@@ -27,7 +32,13 @@ public class Transactions {
         return custid;
     }
 
+    public long getPid() {
+        return pid;
+    }
 
+    public void setPid(long pid) {
+        this.pid = pid;
+    }
 
     public Product getP() {
         return p;

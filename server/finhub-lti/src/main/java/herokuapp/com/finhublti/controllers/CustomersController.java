@@ -30,6 +30,7 @@ public class CustomersController {
 
     @GetMapping("customers/authenticate")
     public long authenticate(@RequestParam String username, @RequestParam String password) {
+        System.out.println(username+" "+password);
         return customerService.authenticate(username,password);
     }
 

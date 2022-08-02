@@ -33,16 +33,20 @@ public class TransController {
         try {
             Long pid = Long.parseLong(payload.get("pid").toString());
             Long cid = Long.parseLong(payload.get("cid").toString());
+            Long cvv = Long.parseLong(payload.get("cvv").toString());
             int emiMonths = Integer.parseInt(payload.get("emi_months").toString());
-			Optional<Customer> c = customersRepository.findById(cid);
-			if(c.isPresent()){
-				Card card = cardsRepository.findById(c.get().getCard_no()).get();
+            Optional<Customer> c = customersRepository.findById(cid);
+            if(c.isPresent()){
+                Card card = cardsRepository.findById(c.get().getCard_no()).get();
+                if (card.getCvv()!=cvv)
+                    return new ResponseEntity<>("INVALID CVV",HttpStatus.FORBIDDEN);
 				Product product = productRepository.findById(pid).get();
 				if(card.getBalance()>=(product.getPrice()/emiMonths)){
 					Transactions t = new Transactions();
 					t.setPending_inst(emiMonths - 1);
 					Date date = new Date();
 					t.setTxn_date(date);
+                    t.setPid(pid);
 					Calendar cal = Calendar.getInstance();
 					cal.setTime(date);
 					cal.add(Calendar.DATE, 45);
@@ -51,8 +55,6 @@ public class TransController {
 					card.setBalance(card.getBalance()-(product.getPrice()/emiMonths));
 					cardsRepository.save(card);
 					transactionsRepository.save(t);
-				} else{
-					return new ResponseEntity<>("Not enough balance", HttpStatus.BAD_REQUEST);
 				}
 			}
             return new ResponseEntity<>("OK", HttpStatus.OK);
